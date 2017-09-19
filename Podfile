@@ -6,8 +6,8 @@ target 'Yep' do
   use_frameworks!
 
   # Pods for Yep
-  pod 'AFNetworking', '~> 2.5'
-  pod 'BDBOAuth1Manager'
+  # pod 'AFNetworking', '~> 2.5'
+  # pod 'BDBOAuth1Manager'
 
   target 'YepTests' do
     inherit! :search_paths
