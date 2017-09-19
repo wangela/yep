@@ -1,34 +1,75 @@
-### Basic Yelp client
+# yep
 
-This is a headless example of how to implement an OAuth 1.0a Yelp API client. The Yelp API provides an application token that allows applications to make unauthenticated requests to their search API.
+Yep is an iOS app for searching nearby restaurants based on the Yelp API.
 
-### Next steps
+Time spent: xx hours spent in total
 
-- Check out `BusinessesViewController.swift` to see how to use the `Business` model.
+## User Stories
 
-### Sample request
+The following **required** functionality is completed:
 
-**Basic search with query**
+Search Results
+- [ ] Table rows should be dynamic height according to the content height.
+- [ ] Custom cells should have the proper Auto Layout constraints.
+- [ ] Search bar should be in the navigation bar (doesn't have to expand to show location like the real Yelp app does).
 
-```
-Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
-    self.businesses = businesses
-    
-    for business in businesses {
-        print(business.name!)
-        print(business.address!)
-    }
-})
-```
 
-**Advanced search with categories, sort, and deal filters**
+Filters
+- [ ] The filters you should actually have are: category, sort (best match, distance, highest rated), distance, deals (on/off).
+- [ ] The filters table should be organized into sections as in the mock.
+- [ ] You can use the default UISwitch for on/off states. Optional: implement a custom switch
+- [ ] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
+Optional: Distance filter should expand as in the real Yelp app.
+Optional: Categories should show a subset of the full list with a "See All" row to expand.
+Optional: Implement the restaurant detail page.
 
-```
-Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
+The following **optional** features are implemented:
 
-    for business in businesses {
-        print(business.name!)
-        print(business.address!)
-    }
-}
-```
+Search Results
+- [ ] Infinite scroll for restaurant results
+- [ ] Implement map view of restaurant results
+
+Filters
+- [ ] Distance filter should expand as in the real Yelp app.
+- [ ] Categories should show a subset of the full list with a "See All" row to expand.
+- [ ] Implement the restaurant detail page.
+
+The following **additional** features are implemented:
+
+- [ ]
+
+## Video Walkthrough
+
+Here's a walkthrough of implemented user stories:
+
+<img src='' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+## Notes
+
+
+
+## License
+
+  MIT License
+
+  Copyright (c) 2017 Angela Yu
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
