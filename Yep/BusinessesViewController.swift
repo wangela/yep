@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
+class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, FiltersViewControllerDelegate {
     
     @IBOutlet weak var resultsTableView: UITableView!
     
@@ -110,5 +110,20 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
      // Pass the selected object to the new view controller.
      }
      */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let navigationController = segue.destination as! UINavigationController
+        let filtersViewController = navigationController.topViewController as! FiltersViewController
+        
+        filtersViewController.delegate = self
+    }
+    
+    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
+        let categories = filters["categories"] as? [String]
+        Business.searchWithTerm(term: "Bakeries", sort: nil, categories: categories, deals: nil, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
+            self.filteredBusinesses = resultBusinesses
+            self.resultsTableView.reloadData()
+        }
+        )
+    }
     
 }
