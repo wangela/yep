@@ -8,11 +8,13 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
     
     @IBOutlet weak var resultsTableView: UITableView!
     
     var businesses: [Business]!
+    var filteredBusinesses: [Business]!
+    var searchController: UISearchController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,19 +23,13 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         resultsTableView.dataSource = self
         resultsTableView.rowHeight = UITableViewAutomaticDimension
         resultsTableView.estimatedRowHeight = 120
+        
+        Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode.highestRated, categories: [], deals: false, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
             
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
+            self.businesses = resultBusinesses
+            self.filteredBusinesses = resultBusinesses
             self.resultsTableView.reloadData()
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
-                }
-            }
-            
-            }
+        }
         )
         
         /* Example of Yelp search with more search options specified
@@ -47,6 +43,25 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
          }
          */
         
+        // Initializing with searchResultsController set to nil means that
+        // searchController will use this view controller to display the search results
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        // If we are using this same view controller to present the results
+        // dimming it out wouldn't make sense. Should probably only set
+        // this to yes if using another controller to display the search results.
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        searchController.searchBar.sizeToFit()
+        navigationItem.titleView = searchController.searchBar
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        searchController.dismiss(animated: false, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -55,20 +70,37 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if businesses != nil {
-            return businesses!.count
-        } else {
+        guard let displayBusinesses = filteredBusinesses else {
             return 0
         }
+        
+        return displayBusinesses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = resultsTableView.dequeueReusableCell(withIdentifier: "BusinessCell", for: indexPath) as! BusinessCell
         
-        cell.business = businesses[indexPath.row]
-        
+        if let displayBusinesses = filteredBusinesses {
+            cell.business = displayBusinesses[indexPath.row]
+        }
+
         return cell
     }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            Business.searchWithTerm(term: searchText, sort: .highestRated, categories: [], deals: false, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
+                
+                self.filteredBusinesses = resultBusinesses
+            }
+            )
+        } else {
+            filteredBusinesses = businesses
+        }
+        resultsTableView.reloadData()
+    }
+    
+    
     /*
      // MARK: - Navigation
      
