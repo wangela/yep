@@ -173,8 +173,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iPt-35-OzB">
-                                                    <rect key="frame" x="12" y="11.5" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Offering a Deal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iPt-35-OzB">
+                                                    <rect key="frame" x="12" y="11.5" width="115" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -191,11 +191,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="onSwitch" destination="YE8-xX-CUf" id="tap-ug-BIH"/>
+                                            <outlet property="onSwitch" destination="YE8-xX-CUf" id="FoT-ZZ-Gsr"/>
                                             <outlet property="switchLabel" destination="iPt-35-OzB" id="Yrj-Sq-mUD"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <sections/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -210,12 +211,12 @@
                     <navigationItem key="navigationItem" title="Filters" id="Vt1-94-oje">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="U2G-NS-oq2">
                             <connections>
-                                <action selector="onCancelButton:" destination="m2T-Mn-gSp" id="ErC-SV-iSg"/>
+                                <action selector="onCancelButton:" destination="m2T-Mn-gSp" id="jgn-wc-HHx"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Search" id="RH4-9T-Gc5">
                             <connections>
-                                <action selector="onSearchButton:" destination="m2T-Mn-gSp" id="TFC-wj-VZ5"/>
+                                <action selector="onSearchButton:" destination="m2T-Mn-gSp" id="Kvc-EP-xcr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

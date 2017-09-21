@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol SwitchCellDelegate {
-    @objc optional func switchCell(switchCell: SwitchCell, didChangeValue value: Bool)
+    @objc optional func switchCellToggled(switchCell: SwitchCell, didChangeValue value: Bool)
 }
 
 class SwitchCell: UITableViewCell {
@@ -18,6 +18,12 @@ class SwitchCell: UITableViewCell {
     @IBOutlet weak var onSwitch: UISwitch!
     
     weak var delegate: SwitchCellDelegate?
+    
+    var filterIdentifier: FilterIdentifier! {
+        didSet {
+            switchLabel?.text = filterIdentifier?.rawValue
+        }
+    }
 
     override func awakeFromNib() {
 
@@ -34,7 +40,7 @@ class SwitchCell: UITableViewCell {
     }
     
     func switchValueChanged() {
-            delegate?.switchCell?(switchCell: self, didChangeValue: onSwitch.isOn)
+            delegate?.switchCellToggled?(switchCell: self, didChangeValue: onSwitch.isOn)
     }
 
 }

@@ -16,6 +16,9 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     var filteredBusinesses: [Business]!
     var searchController: UISearchController!
     
+    var defaultFilters = Filters()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -117,9 +120,10 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         filtersViewController.delegate = self
     }
     
-    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
-        let categories = filters["categories"] as? [String]
-        Business.searchWithTerm(term: "Bakeries", sort: nil, categories: categories, deals: nil, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
+    internal func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: Filters) {
+        let categories = filters.categories
+        Business.searchWithTerm(term: "Bakeries", sort: YelpSortMode.highestRated, categories: categories, deals: true, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
+            self.businesses = resultBusinesses
             self.filteredBusinesses = resultBusinesses
             self.resultsTableView.reloadData()
         }
