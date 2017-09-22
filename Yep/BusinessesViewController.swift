@@ -8,15 +8,17 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, FiltersViewControllerDelegate {
+class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UIScrollViewDelegate, FiltersViewControllerDelegate {
     
     @IBOutlet weak var resultsTableView: UITableView!
     
-    // var businesses: [Business]!
-    var filteredBusinesses: [Business]!
     var searchController: UISearchController!
+    var isMoreDataLoading = false
+    var loadingMoreView:InfiniteScrollActivityView?
     
+    var filteredBusinesses: [Business]!
     var filterSettings = Filters()
+    var resultsCounter: Int!
 
     
     override func viewDidLoad() {
@@ -26,6 +28,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         resultsTableView.dataSource = self
         resultsTableView.rowHeight = UITableViewAutomaticDimension
         resultsTableView.estimatedRowHeight = 120
+        resultsCounter = 0
         
         filterSettings.deals = false
         filterSettings.sort = YelpSortMode.bestMatched
@@ -59,6 +62,16 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         navigationItem.titleView = searchController.searchBar
         searchController.searchBar.text = "Restaurants"
         updateSearchResults(for: searchController)
+        
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(x: 0, y: resultsTableView.contentSize.height, width: resultsTableView.contentSize.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        resultsTableView.addSubview(loadingMoreView!)
+        
+        var insets = resultsTableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        resultsTableView.contentInset = insets
     }
     
     override func didReceiveMemoryWarning() {
@@ -84,6 +97,27 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         return cell
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = resultsTableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - resultsTableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting more data
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && resultsTableView.isDragging) {
+                isMoreDataLoading = true
+                
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(x: 0, y: resultsTableView.contentSize.height, width: resultsTableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                loadMoreResults()
+            }
+        }
+    }
+    
     func updateSearchResults(for searchController: UISearchController) {
         let deals = filterSettings.deals ?? false
         let sort = filterSettings.sort ?? YelpSortMode.bestMatched
@@ -93,6 +127,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
             Business.searchWithTerm(term: searchText, sort: sort, categories: categories, deals: deals, distance: distance, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
                     print("filtered search")
                     self.filteredBusinesses = resultBusinesses
+                    self.resultsCounter = self.filteredBusinesses.count
                     self.resultsTableView.reloadData()
                 }
                 )
@@ -100,6 +135,39 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
             Business.searchWithTerm(term: "Restaurants", sort: sort, categories: categories, deals: deals, distance: distance, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
                 print("default search with filters \(sort), \(deals), \(categories)")
                 self.filteredBusinesses = resultBusinesses
+                self.resultsCounter = self.filteredBusinesses.count
+                self.resultsTableView.reloadData()
+            }
+            )
+        }
+        
+    }
+    
+    func loadMoreResults() {
+        let deals = filterSettings.deals ?? false
+        let sort = filterSettings.sort ?? YelpSortMode.bestMatched
+        let categories = filterSettings.categories ?? []
+        let distance = filterSettings.distance ?? nil
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            Business.searchWithTerm(term: searchText, sort: sort, categories: categories, deals: deals, distance: distance, offset: resultsCounter, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
+                self.isMoreDataLoading = false
+                self.loadingMoreView!.stopAnimating()
+                if let newBusineses = resultBusinesses {
+                    self.filteredBusinesses.append(contentsOf: newBusineses)
+                    self.resultsCounter = self.filteredBusinesses.count
+                }
+                self.resultsTableView.reloadData()
+            }
+            )
+        } else if let searchText = searchController.searchBar.text, searchText.isEmpty {
+            Business.searchWithTerm(term: "Restaurants", sort: sort, categories: categories, deals: deals, distance: distance, offset: resultsCounter, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
+                print("default search with filters \(sort), \(deals), \(categories)")
+                self.isMoreDataLoading = false
+                self.loadingMoreView!.stopAnimating()
+                if let newBusineses = resultBusinesses {
+                    self.filteredBusinesses.append(contentsOf: newBusineses)
+                    self.resultsCounter = self.filteredBusinesses.count
+                }
                 self.resultsTableView.reloadData()
             }
             )

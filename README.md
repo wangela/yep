@@ -2,30 +2,23 @@
 
 Yep is an iOS app for searching nearby restaurants based on the Yelp API.
 
-Time spent: 14.5 hours spent in total
+Time spent: 17 hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
-
-### Search Results
 - [x] Table rows should be dynamic height according to the content height.
 - [x] Custom cells should have the proper Auto Layout constraints.
 - [x] Search bar should be in the navigation bar.
-
-### Filters
-- [x] The filters you should actually have are: category, sort (best match, distance, highest rated), distance, deals (on/off).
+- [x] User can filter by: cuisine, sort (best match, distance, highest rated), distance, and deals (on/off).
 - [x] The filters table should be organized into sections as in the mock.
 - [x] You can use the default UISwitch for on/off states.
 - [x] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
 
 The following **optional** features are implemented:
 
-### Search Results
-- [ ] Infinite scroll for restaurant results
+- [x] Infinite scroll for restaurant results
 - [ ] Implement map view of restaurant results
-
-### Filters
 - [ ] Distance filter should expand as in the real Yelp app.
 - [ ] Categories should show a subset of the full list with a "See All" row to expand.
 - [ ] Implement the restaurant detail page.
@@ -33,7 +26,9 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ]
+- [x] Customize the navigation bar
+- [ ] Use Yelp Fusion (v3) API instead of v2 to access additional features and extend longevity past 2018
+- [ ] Also sort by number of reviews, filter for Open Now, filter for Hot and New, and choose price categories
 
 ## Video Walkthrough
 
