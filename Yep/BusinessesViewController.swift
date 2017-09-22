@@ -12,11 +12,11 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBOutlet weak var resultsTableView: UITableView!
     
-    var businesses: [Business]!
+    // var businesses: [Business]!
     var filteredBusinesses: [Business]!
     var searchController: UISearchController!
     
-    var defaultFilters = Filters()
+    var filterSettings = Filters()
 
     
     override func viewDidLoad() {
@@ -27,16 +27,14 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         resultsTableView.rowHeight = UITableViewAutomaticDimension
         resultsTableView.estimatedRowHeight = 120
         
-        Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode.highestRated, categories: [], deals: false, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = resultBusinesses
-            self.filteredBusinesses = resultBusinesses
-            self.resultsTableView.reloadData()
-        }
-        )
+        filterSettings.deals = false
+        filterSettings.sort = YelpSortMode.bestMatched
+        filterSettings.categories = []
+        filterSettings.distance = nil
+        
         
         /* Example of Yelp search with more search options specified
-         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
+         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true, distance: 8047) { (businesses: [Business]!, error: NSError!) -> Void in
          self.businesses = businesses
          
          for business in businesses {
@@ -59,12 +57,8 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         
         searchController.searchBar.sizeToFit()
         navigationItem.titleView = searchController.searchBar
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        searchController.dismiss(animated: false, completion: nil)
+        searchController.searchBar.text = "Restaurants"
+        updateSearchResults(for: searchController)
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,16 +85,25 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func updateSearchResults(for searchController: UISearchController) {
+        let deals = filterSettings.deals ?? false
+        let sort = filterSettings.sort ?? YelpSortMode.bestMatched
+        let categories = filterSettings.categories ?? []
+        let distance = filterSettings.distance ?? nil
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
-            Business.searchWithTerm(term: searchText, sort: .highestRated, categories: [], deals: false, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
-                
+            Business.searchWithTerm(term: searchText, sort: sort, categories: categories, deals: deals, distance: distance, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
+                    print("filtered search")
+                    self.filteredBusinesses = resultBusinesses
+                    self.resultsTableView.reloadData()
+                }
+                )
+            } else if let searchText = searchController.searchBar.text, searchText.isEmpty {
+            Business.searchWithTerm(term: "Restaurants", sort: sort, categories: categories, deals: deals, distance: distance, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
+                print("default search with filters \(sort), \(deals), \(categories)")
                 self.filteredBusinesses = resultBusinesses
+                self.resultsTableView.reloadData()
             }
             )
-        } else {
-            filteredBusinesses = businesses
         }
-        resultsTableView.reloadData()
     }
     
     
@@ -121,13 +124,12 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     internal func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: Filters) {
-        let categories = filters.categories
-        Business.searchWithTerm(term: "Bakeries", sort: YelpSortMode.highestRated, categories: categories, deals: true, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
-            self.businesses = resultBusinesses
-            self.filteredBusinesses = resultBusinesses
-            self.resultsTableView.reloadData()
-        }
-        )
+        filtersViewController.dismiss(animated: true, completion: nil)
+        filterSettings.sort = filters.sort
+        filterSettings.deals = filters.deals
+        filterSettings.categories = filters.categories
+        filterSettings.distance = filters.distance
+        updateSearchResults(for: searchController)
     }
     
 }

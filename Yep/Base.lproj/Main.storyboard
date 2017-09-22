@@ -12,7 +12,7 @@
         <!--Yep-->
         <scene sceneID="5L9-Uz-lNK">
             <objects>
-                <viewController id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Yep" id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hR0-74-jRp"/>
                         <viewControllerLayoutGuide type="bottom" id="VBY-gq-v8E"/>
@@ -153,7 +153,7 @@
         <!--Filters-->
         <scene sceneID="R9j-9z-gl0">
             <objects>
-                <viewController id="m2T-Mn-gSp" customClass="FiltersViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Filters" id="m2T-Mn-gSp" customClass="FiltersViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="D0v-pR-hP2"/>
                         <viewControllerLayoutGuide type="bottom" id="K26-Ua-X30"/>

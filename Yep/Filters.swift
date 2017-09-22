@@ -11,7 +11,7 @@ import UIKit
 class Filters: NSObject {
     var deals: Bool?
     var sort: YelpSortMode?
-    var distance: Float?
+    var distance: Float? // in meters
     var categories: [String]?
     
 }

@@ -31,41 +31,23 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     let filterStructure: [[FilterIdentifier]] = [[.Deals], [.Sort], [.Distance], [.Categories]]
     var categories: [[String: String]]!
     var catNames: [String] = [""]
-    var switchStates = [Int: Bool]()
+    var switchStates: [IndexPath: Bool] = [IndexPath: Bool]()
     var filterLabels: [(String, [String])] = [("", ["Offering a Deal"]),
-                        ("Sort By", ["Best Match", "Distance", "Rating", "Most Reviewed"]),
+                        ("Sort By", ["Best Match", "Distance", "Rating"]),
                         ("Distance", ["Best Matched", "0.3 miles", "1 mile", "3 miles", "5 miles", "20 miles"]),
-                        ("Categories", ["Afghan", "American"])]
+                        ("Cuisine", [])]
 
-    var currentFilters: Filters! {
-        didSet {
-            print("currentFilters called")
-            filtersTableView.reloadData()
-        }
-    }
-    
-    func filtersFromTableData() -> Filters {
-        let ret = Filters()
-        var selectedCategories = [String]()
-        
-        for (row, isSelected) in switchStates {
-            if isSelected {
-                selectedCategories.append(categories[row]["code"]!)
-            }
-        }
-        
-        if selectedCategories.count > 0 {
-            ret.categories = selectedCategories
-        }
-        
-        print("filtersFromTableData called")
-        return ret
-    }
+//    var currentFilters: Filters! {
+//        didSet {
+//            updateSwitches()
+//            filtersTableView.reloadData()
+//        }
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Populate the Cuisine categories
         categories = yelpCategories()
         filterLabels[3].1 = [""]
         catNames = []
@@ -74,10 +56,9 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         filterLabels[3].1 = catNames
         
+        // Tableview delegate pattern
         filtersTableView.delegate = self
         filtersTableView.dataSource = self
-        currentFilters = currentFilters ?? Filters()
-        print ("loaded. current filters are \(currentFilters)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -99,7 +80,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.switchLabel?.text = filtersInSection[indexPath.row]
             cell.delegate = self
             
-            cell.onSwitch.isOn = switchStates[indexPath.row] ?? false
+            cell.onSwitch.isOn = switchStates[indexPath] ?? false
             
             return cell
     }
@@ -116,26 +97,102 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         return 30
     }
     
+//    func updateSwitches() {
+//        // TODO: pass currentFilters values to switchStates
+//        for (indexPathKey, isSelected) in switchStates {
+//            if isSelected {
+//                let cell = filtersTableView.cellForRow(at: indexPathKey) as! SwitchCell
+//                cell.onSwitch.isOn = isSelected
+//            }
+//        }
+//    }
+    
+    func switchCellToggled(switchCell: SwitchCell, didChangeValue value: Bool) {
+        let indexPath = filtersTableView.indexPath(for: switchCell)!
+        
+        print("indexPath is \(indexPath)")
+        switchStates[indexPath] = value
+        print("filters view controller got the event")
+    }
+    
+    func filtersFromTableData() -> Filters {
+        let ret = Filters()
+        
+        // Grab the selected categories
+        var selectedCategories = [String]()
+        print("\(switchStates)")
+        
+        for (indexPathKey, isSelected) in switchStates {
+            switch indexPathKey.section {
+            case 0:
+                ret.deals = isSelected
+                break
+            case 1:
+                if isSelected {
+                    let row = indexPathKey.row
+                    switch row {
+                    case 1:
+                        ret.sort = YelpSortMode.distance
+                        break
+                    case 2:
+                        ret.sort = YelpSortMode.highestRated
+                        break
+                    default:
+                        ret.sort = YelpSortMode.bestMatched
+                        break
+                    }
+                }
+                break
+            case 2:
+                if isSelected {
+                    let row = indexPathKey.row
+                    switch row {
+                    case 1:
+                        ret.distance = 482
+                        break
+                    case 2:
+                        ret.distance = 1609
+                        break
+                    case 3:
+                        ret.distance = 8047
+                        break
+                    case 4:
+                        ret.distance = 32187
+                        break
+                    default:
+                        ret.distance = nil
+                        break
+                    }
+                }
+                break
+            case 3:
+                if isSelected {
+                    let row = indexPathKey.row
+                    selectedCategories.append(categories[row]["code"]!)
+                }
+                break
+            default:
+                print("no section matched")
+            }
+        }
+        
+        if selectedCategories.count > 0 {
+            ret.categories = selectedCategories
+        }
+        
+        print("filtersFromTableData called")
+        return ret
+    }
+    
     @IBAction func onCancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func onSearchButton(_ sender: Any) {
-        
         var filters = Filters()
         filters = self.filtersFromTableData()
         
         delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)
-        
-        dismiss(animated: true, completion: nil)
-    }
-
-    
-    func switchCellToggled(switchCell: SwitchCell, didChangeValue value: Bool) {
-        let indexPath = filtersTableView.indexPath(for: switchCell)!
-        
-        switchStates[indexPath.row] = value
-        print("filters view controller got the event")
     }
     
     func yelpCategories() -> [[String:String]] {
