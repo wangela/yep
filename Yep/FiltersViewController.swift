@@ -77,7 +77,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
-        case 1:
+        case 1, 2:
             let cell = filtersTableView.dequeueReusableCell(withIdentifier: "RadioCell", for: indexPath) as! RadioCell
             let filtersInSection = filterLabels[indexPath.section].1
             print ("label = \(filtersInSection[indexPath.row])")
@@ -128,9 +128,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     func switchCellToggled(switchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = filtersTableView.indexPath(for: switchCell)!
         
-        print("indexPath is \(indexPath)")
         switchStates[indexPath] = value
-        print("filters view controller got the event")
     }
     
     func radioCellTapped(radioCell: RadioCell) {

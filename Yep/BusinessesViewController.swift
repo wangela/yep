@@ -61,7 +61,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         searchController.searchBar.sizeToFit()
         navigationItem.titleView = searchController.searchBar
         searchController.searchBar.text = "Restaurants"
-        updateSearchResults(for: searchController)
+        // updateSearchResults(for: searchController)
         
         // Set up Infinite Scroll loading indicator
         let frame = CGRect(x: 0, y: resultsTableView.contentSize.height, width: resultsTableView.contentSize.width, height: InfiniteScrollActivityView.defaultHeight)
@@ -192,6 +192,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     internal func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: Filters) {
+        print("dismissing")
         filtersViewController.dismiss(animated: true, completion: nil)
         filterSettings.sort = filters.sort
         filterSettings.deals = filters.deals
