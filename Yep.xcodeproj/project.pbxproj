@@ -17,6 +17,7 @@
 		22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */; };
 		773D8D4D1F71EA0600695087 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773D8D4C1F71EA0600695087 /* SwitchCell.swift */; };
 		773D8D4F1F71EB6A00695087 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773D8D4E1F71EB6A00695087 /* FiltersViewController.swift */; };
+		7745E8271F75C4E400EEAA43 /* RadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7745E8261F75C4E400EEAA43 /* RadioCell.swift */; };
 		7792F8581F74F5BE005E74BC /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7792F8571F74F5BE005E74BC /* InfiniteScrollActivityView.swift */; };
 		77B6202C1F73A8AC00B01049 /* FiltersHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6202B1F73A8AC00B01049 /* FiltersHeaderView.swift */; };
 		77D783D11F726B8A00723C29 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D783D01F726B8A00723C29 /* Filters.swift */; };
@@ -51,6 +52,7 @@
 		60CAB8E5377DD8F56B90E1BB /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
 		773D8D4C1F71EA0600695087 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		773D8D4E1F71EB6A00695087 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		7745E8261F75C4E400EEAA43 /* RadioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioCell.swift; sourceTree = "<group>"; };
 		7792F8571F74F5BE005E74BC /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 		77B6202B1F73A8AC00B01049 /* FiltersHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersHeaderView.swift; sourceTree = "<group>"; };
 		77D783D01F726B8A00723C29 /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				77B6202B1F73A8AC00B01049 /* FiltersHeaderView.swift */,
 				77ECB2E01F71B3DB00B081E7 /* BusinessCell.swift */,
 				773D8D4C1F71EA0600695087 /* SwitchCell.swift */,
+				7745E8261F75C4E400EEAA43 /* RadioCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -318,11 +321,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Yep/Pods-Yep-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/AIFlatSwitch/AIFlatSwitch.framework",
 				"${BUILT_PRODUCTS_DIR}/BDBOAuth1Manager/BDBOAuth1Manager.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AIFlatSwitch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BDBOAuth1Manager.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,6 +427,7 @@
 				77B6202C1F73A8AC00B01049 /* FiltersHeaderView.swift in Sources */,
 				77ECB2E11F71B3DB00B081E7 /* BusinessCell.swift in Sources */,
 				77D783D11F726B8A00723C29 /* Filters.swift in Sources */,
+				7745E8271F75C4E400EEAA43 /* RadioCell.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
 				773D8D4F1F71EB6A00695087 /* FiltersViewController.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,

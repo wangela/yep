@@ -19,11 +19,11 @@ class SwitchCell: UITableViewCell {
     
     weak var delegate: SwitchCellDelegate?
     
-    var filterIdentifier: FilterIdentifier! {
-        didSet {
-            switchLabel?.text = filterIdentifier?.rawValue
-        }
-    }
+//    var filterIdentifier: FilterIdentifier! {
+//        didSet {
+//            switchLabel?.text = filterIdentifier?.rawValue
+//        }
+//    }
 
     override func awakeFromNib() {
 

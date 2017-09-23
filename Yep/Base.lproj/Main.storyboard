@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="148"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xDW-TY-eRv" id="2Kg-Eh-508">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="147.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="148"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bvj-sp-cSg">
@@ -192,6 +192,49 @@
                                             <outlet property="switchLabel" destination="iPt-35-OzB" id="Yrj-Sq-mUD"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RadioCell" id="Uu2-1e-0Pi" customClass="RadioCell" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uu2-1e-0Pi" id="bzv-6E-lnz">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best Matched" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m7U-zF-cU4">
+                                                    <rect key="frame" x="12" y="12" width="106.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XT4-Vb-Vt4" customClass="AIFlatSwitch" customModule="AIFlatSwitch">
+                                                    <rect key="frame" x="332" y="7" width="31" height="31"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="31" id="1Ve-u8-OYq"/>
+                                                        <constraint firstAttribute="height" constant="31" id="M1J-oW-bSM"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="trailStrokeColor">
+                                                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isSelected" value="NO"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="XT4-Vb-Vt4" firstAttribute="centerY" secondItem="bzv-6E-lnz" secondAttribute="centerY" id="MTb-bg-E4I"/>
+                                                <constraint firstItem="m7U-zF-cU4" firstAttribute="leading" secondItem="bzv-6E-lnz" secondAttribute="leading" constant="12" id="MvB-4A-aF8"/>
+                                                <constraint firstItem="XT4-Vb-Vt4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m7U-zF-cU4" secondAttribute="trailing" constant="8" id="RT7-mM-ujg"/>
+                                                <constraint firstAttribute="trailing" secondItem="XT4-Vb-Vt4" secondAttribute="trailing" constant="12" id="bIV-Cc-3JV"/>
+                                                <constraint firstItem="m7U-zF-cU4" firstAttribute="centerY" secondItem="bzv-6E-lnz" secondAttribute="centerY" id="owm-9h-JTe"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="radioLabel" destination="m7U-zF-cU4" id="vlJ-dO-LGF"/>
+                                            <outlet property="radioSwitch" destination="XT4-Vb-Vt4" id="eQY-4r-tDr"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <sections/>
                             </tableView>
@@ -233,7 +276,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Lbd-yf-k0I" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="uf6-xo-HpJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uf6-xo-HpJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.82745098039999998" green="0.13725490200000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -255,7 +298,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WAM-9x-ov0" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="F5r-fS-5jj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="F5r-fS-5jj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.82745098039999998" green="0.13725490200000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

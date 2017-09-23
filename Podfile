@@ -8,6 +8,7 @@ target 'Yep' do
   # Pods for Yep
   pod 'AFNetworking', '~> 2.5'
   pod 'BDBOAuth1Manager'
+  pod 'AIFlatSwitch'
 
   target 'YepTests' do
     inherit! :search_paths

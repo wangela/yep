@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AIFlatSwitch
 
 @objc protocol FiltersViewControllerDelegate {
     @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: Filters)
@@ -19,7 +20,7 @@ enum FilterIdentifier : String {
     case Categories = "categories"
 }
 
-class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate {
+class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate, RadioCellDelegate {
     
     @IBOutlet weak var filtersTableView: UITableView!
     @IBOutlet weak var dealsSwitch: UISwitch!
@@ -75,6 +76,22 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case 1:
+            let cell = filtersTableView.dequeueReusableCell(withIdentifier: "RadioCell", for: indexPath) as! RadioCell
+            let filtersInSection = filterLabels[indexPath.section].1
+            print ("label = \(filtersInSection[indexPath.row])")
+            cell.radioLabel?.text = filtersInSection[indexPath.row]
+            cell.delegate = self
+            
+            guard let selectedState = switchStates[indexPath] else {
+                cell.radioSwitch.setSelected(false, animated: false)
+                return cell
+            }
+            cell.radioSwitch.setSelected(selectedState, animated: false)
+            
+            return cell
+        default:
             let cell = filtersTableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
             let filtersInSection = filterLabels[indexPath.section].1
             cell.switchLabel?.text = filtersInSection[indexPath.row]
@@ -83,6 +100,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.onSwitch.isOn = switchStates[indexPath] ?? false
             
             return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -113,6 +131,18 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         print("indexPath is \(indexPath)")
         switchStates[indexPath] = value
         print("filters view controller got the event")
+    }
+    
+    func radioCellTapped(radioCell: RadioCell) {
+        let indexPath = filtersTableView.indexPath(for: radioCell)!
+        
+        print("indexPath is \(indexPath)")
+        let rowCount = filterLabels[indexPath.section].1.count
+        for row in 0..<rowCount {
+            switchStates[[indexPath.section, row]] = false
+        }
+        switchStates[indexPath] = true
+        filtersTableView.reloadData()
     }
     
     func filtersFromTableData() -> Filters {

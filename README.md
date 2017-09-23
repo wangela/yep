@@ -2,7 +2,7 @@
 
 Yep is an iOS app for searching nearby restaurants based on the Yelp API.
 
-Time spent: 17 hours spent in total
+Time spent: 19 hours spent in total
 
 ## User Stories
 
