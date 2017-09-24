@@ -235,6 +235,28 @@
                                             <outlet property="radioSwitch" destination="XT4-Vb-Vt4" id="eQY-4r-tDr"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ExpandingCell" id="1uX-Qu-sTp" customClass="ExpandingCell" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1uX-Qu-sTp" id="eaQ-S2-fsf">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best Matched" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2x2-ia-bOH">
+                                                    <rect key="frame" x="12" y="12" width="106.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2x2-ia-bOH" firstAttribute="centerY" secondItem="eaQ-S2-fsf" secondAttribute="centerY" id="8zS-ow-D66"/>
+                                                <constraint firstItem="2x2-ia-bOH" firstAttribute="leading" secondItem="eaQ-S2-fsf" secondAttribute="leading" constant="12" id="T3f-uA-hvM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="headerLabel" destination="2x2-ia-bOH" id="N5b-5G-56Y"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <sections/>
                             </tableView>

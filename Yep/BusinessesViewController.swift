@@ -61,7 +61,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         searchController.searchBar.sizeToFit()
         navigationItem.titleView = searchController.searchBar
         searchController.searchBar.text = "Restaurants"
-        // updateSearchResults(for: searchController)
+        definesPresentationContext = true
         
         // Set up Infinite Scroll loading indicator
         let frame = CGRect(x: 0, y: resultsTableView.contentSize.height, width: resultsTableView.contentSize.width, height: InfiniteScrollActivityView.defaultHeight)
@@ -125,13 +125,13 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         let distance = filterSettings.distance ?? nil
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
             Business.searchWithTerm(term: searchText, sort: sort, categories: categories, deals: deals, distance: distance, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
-                    print("filtered search")
-                    self.filteredBusinesses = resultBusinesses
-                    self.resultsCounter = self.filteredBusinesses.count
-                    self.resultsTableView.reloadData()
-                }
-                )
-            } else if let searchText = searchController.searchBar.text, searchText.isEmpty {
+                print("filtered search")
+                self.filteredBusinesses = resultBusinesses
+                self.resultsCounter = self.filteredBusinesses.count
+                self.resultsTableView.reloadData()
+            }
+            )
+        } else if let searchText = searchController.searchBar.text, searchText.isEmpty {
             Business.searchWithTerm(term: "Restaurants", sort: sort, categories: categories, deals: deals, distance: distance, completion: { (resultBusinesses: [Business]?, error: Error?) -> Void in
                 print("default search with filters \(sort), \(deals), \(categories)")
                 self.filteredBusinesses = resultBusinesses
@@ -140,7 +140,6 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
             }
             )
         }
-        
     }
     
     func loadMoreResults() {

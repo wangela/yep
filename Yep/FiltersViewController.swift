@@ -13,13 +13,6 @@ import AIFlatSwitch
     @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: Filters)
 }
 
-enum FilterIdentifier : String {
-    case Sort = "sort"
-    case Deals = "deals"
-    case Distance = "distance"
-    case Categories = "categories"
-}
-
 class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate, RadioCellDelegate {
     
     @IBOutlet weak var filtersTableView: UITableView!
@@ -29,33 +22,47 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     weak var delegate: FiltersViewControllerDelegate?
     
-    let filterStructure: [[FilterIdentifier]] = [[.Deals], [.Sort], [.Distance], [.Categories]]
+    struct Section {
+        var name: String
+        var collapsed: Bool
+        var items: [String]
+        var selected: Int
+        
+        init(name: String, collapsed: Bool = false, items: [String], selected: Int) {
+            self.name = name
+            self.collapsed = collapsed
+            self.items = items
+            self.selected = selected
+        }
+    }
+    
+    var filterLabels = [Section]()
+    
     var categories: [[String: String]]!
     var catNames: [String] = [""]
     var switchStates: [IndexPath: Bool] = [IndexPath: Bool]()
-    var filterLabels: [(String, [String])] = [("", ["Offering a Deal"]),
-                        ("Sort By", ["Best Match", "Distance", "Rating"]),
-                        ("Distance", ["Best Matched", "0.3 miles", "1 mile", "3 miles", "5 miles", "20 miles"]),
-                        ("Cuisine", [])]
-
-//    var currentFilters: Filters! {
-//        didSet {
-//            updateSwitches()
-//            filtersTableView.reloadData()
-//        }
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Populate the filter labels
+        filterLabels = [
+            Section(name: "Deals", collapsed: false, items: ["Offering a Deal"], selected: 0),
+            Section(name: "Sort By", collapsed: true, items: ["Best Match", "Distance", "Rating"], selected: 0),
+            Section(name: "Distance", collapsed: true, items:["Best Match", "0.3 miles", "1 mile", "3 miles", "5 miles", "20 miles"], selected: 0),
+            Section(name: "Cuisine", collapsed: false, items: [], selected: 0)
+        ]
+        switchStates[[1,0]] = true
+        switchStates[[2,0]] = true
+        
         // Populate the Cuisine categories
         categories = yelpCategories()
-        filterLabels[3].1 = [""]
+        filterLabels[3].items = [""]
         catNames = []
         for (category) in categories {
             catNames.append(category["name"]!)
         }
-        filterLabels[3].1 = catNames
+        filterLabels[3].items = catNames
         
         // Tableview delegate pattern
         filtersTableView.delegate = self
@@ -67,33 +74,42 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         // Dispose of any resources that can be recreated.
     }
 
+    // TableView Delegate Functions
     func numberOfSections(in tableView: UITableView) -> Int {
         return filterLabels.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filterLabels[section].1.count
+        return filterLabels[section].collapsed ? 1 : filterLabels[section].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 1, 2:
             let cell = filtersTableView.dequeueReusableCell(withIdentifier: "RadioCell", for: indexPath) as! RadioCell
-            let filtersInSection = filterLabels[indexPath.section].1
-            print ("label = \(filtersInSection[indexPath.row])")
-            cell.radioLabel?.text = filtersInSection[indexPath.row]
-            cell.delegate = self
-            
-            guard let selectedState = switchStates[indexPath] else {
-                cell.radioSwitch.setSelected(false, animated: false)
-                return cell
+            if filterLabels[indexPath.section].collapsed {
+                let selected = filterLabels[indexPath.section].selected
+                cell.radioLabel?.text = filterLabels[indexPath.section].items[selected]
+                guard let selectedState = switchStates[[indexPath.section, selected]] else {
+                    cell.radioSwitch.setSelected(false, animated: false)
+                    return cell
+                }
+                cell.radioSwitch.setSelected(selectedState, animated: false)
+                
+            } else {
+                cell.radioLabel?.text = filterLabels[indexPath.section].items[indexPath.row]
+                guard let selectedState = switchStates[indexPath] else {
+                    cell.radioSwitch.setSelected(false, animated: false)
+                    return cell
+                }
+                cell.radioSwitch.setSelected(selectedState, animated: false)
             }
-            cell.radioSwitch.setSelected(selectedState, animated: false)
+            cell.delegate = self
             
             return cell
         default:
             let cell = filtersTableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
-            let filtersInSection = filterLabels[indexPath.section].1
+            let filtersInSection = filterLabels[indexPath.section].items
             cell.switchLabel?.text = filtersInSection[indexPath.row]
             cell.delegate = self
             
@@ -106,7 +122,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = FiltersHeaderView()
         
-        header.textLabel?.text = filterLabels[section].0
+        header.textLabel?.text = filterLabels[section].name
         
         return header
     }
@@ -115,16 +131,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         return 30
     }
     
-//    func updateSwitches() {
-//        // TODO: pass currentFilters values to switchStates
-//        for (indexPathKey, isSelected) in switchStates {
-//            if isSelected {
-//                let cell = filtersTableView.cellForRow(at: indexPathKey) as! SwitchCell
-//                cell.onSwitch.isOn = isSelected
-//            }
-//        }
-//    }
-    
+    // Cell Delegate Functions
     func switchCellToggled(switchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = filtersTableView.indexPath(for: switchCell)!
         
@@ -134,15 +141,17 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     func radioCellTapped(radioCell: RadioCell) {
         let indexPath = filtersTableView.indexPath(for: radioCell)!
         
-        print("indexPath is \(indexPath)")
-        let rowCount = filterLabels[indexPath.section].1.count
+        let rowCount = filterLabels[indexPath.section].items.count
         for row in 0..<rowCount {
             switchStates[[indexPath.section, row]] = false
         }
         switchStates[indexPath] = true
-        filtersTableView.reloadData()
+        filterLabels[indexPath.section].selected = indexPath.row
+        filterLabels[indexPath.section].collapsed = !filterLabels[indexPath.section].collapsed
+        filtersTableView.reloadSections(IndexSet(integer: indexPath.section), with: UITableViewRowAnimation.bottom)
     }
     
+    // Process interactions
     func filtersFromTableData() -> Filters {
         let ret = Filters()
         

@@ -2,7 +2,7 @@
 
 Yep is an iOS app for searching nearby restaurants based on the Yelp API.
 
-Time spent: 19.5 hours spent in total
+Time spent: 25 hours spent in total
 
 ## User Stories
 
@@ -19,7 +19,7 @@ The following **optional** features are implemented:
 
 - [x] Infinite scroll for restaurant results
 - [ ] Implement map view of restaurant results
-- [ ] Distance filter should expand as in the real Yelp app.
+- [x] Distance filter should expand as in the real Yelp app.
 - [ ] Categories should show a subset of the full list with a "See All" row to expand.
 - [ ] Implement the restaurant detail page.
 - [x] Implement a custom switch
@@ -34,13 +34,14 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='anim_yep_v1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
+The collapsible filter took the longest to implement; I wish I had knocked out more of the other optionals before tackling this one.
 
-
+Using a struct for the data structure helped greatly in keeping things straight. Choosing a good data structure was key for the filters implementation.
 
 ## License
 
