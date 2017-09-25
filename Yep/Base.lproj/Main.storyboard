@@ -114,6 +114,7 @@
                                             <outlet property="ratingImageView" destination="dO3-0A-y41" id="AK5-Ti-e76"/>
                                             <outlet property="reviewsCountLabel" destination="w5n-A7-k3C" id="KFg-Qv-s0H"/>
                                             <outlet property="thumbImageView" destination="Bvj-sp-cSg" id="9Q1-cg-nP0"/>
+                                            <segue destination="RXG-y3-sX8" kind="show" identifier="detail" id="Fq5-tQ-lvt"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -135,7 +136,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Filters" id="PRE-rr-e5L">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <segue destination="WAM-9x-ov0" kind="presentation" id="h8r-sa-wHd"/>
+                                <segue destination="WAM-9x-ov0" kind="presentation" identifier="filters" id="h8r-sa-wHd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -291,16 +292,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z6l-O7-LJB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4378.3999999999996" y="357.57121439280365"/>
+            <point key="canvasLocation" x="3471" y="1106"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UCT-LZ-guW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Lbd-yf-k0I" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uf6-xo-HpJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="uf6-xo-HpJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="barTintColor" red="0.82745098039999998" green="0.13725490200000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -335,7 +337,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3JP-gG-B46" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3439.1999999999998" y="357.57121439280365"/>
+            <point key="canvasLocation" x="2727" y="1106"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="kbo-ii-MHz">
+            <objects>
+                <viewController id="RXG-y3-sX8" customClass="DetailViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="l2N-CE-kIv"/>
+                        <viewControllerLayoutGuide type="bottom" id="uEK-pm-mJs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zDo-iM-V6V">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y1j-CJ-3uq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3606" y="358"/>
         </scene>
     </scenes>
 </document>

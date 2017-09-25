@@ -1,14 +1,14 @@
 //
-//  Business.swift
-//  Yelp
+//  BusinessDetail.swift
+//  Yep
 //
-//  Created by Timothy Lee on 4/23/15.
-//  Copyright (c) 2015 Timothy Lee. All rights reserved.
+//  Created by Angela Yu on 9/24/17.
+//  Copyright © 2017 Angela Yu. All rights reserved.
 //
 
 import UIKit
 
-class Business: NSObject {
+class BusinessDetail: NSObject {
     let id: String?
     let name: String?
     let address: String?
@@ -78,24 +78,8 @@ class Business: NSObject {
         reviewCount = dictionary["review_count"] as? NSNumber
     }
     
-    class func businesses(array: [NSDictionary]) -> [Business] {
-        var businesses = [Business]()
-        for dictionary in array {
-            let business = Business(dictionary: dictionary)
-            businesses.append(business)
-        }
-        return businesses
+    class func getBusiness(id: String, completion: @escaping (BusinessDetail?, Error?) -> Void) {
+        _ = YelpClient.sharedInstance.getBusiness(id, completion: completion)
     }
-    
-    class func searchWithTerm(term: String, completion: @escaping ([Business]?, Error?) -> Void) {
-        _ = YelpClient.sharedInstance.searchWithTerm(term, completion: completion)
-    }
-    
-    class func searchWithTerm(term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, distance: Float?, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
-        _ = YelpClient.sharedInstance.searchWithTerm(term, sort: sort, categories: categories, deals: deals, distance: distance, completion: completion)
-    }
-    
-    class func searchWithTerm(term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, distance: Float?, offset: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
-        _ = YelpClient.sharedInstance.searchWithTerm(term, sort: sort, categories: categories, deals: deals, distance: distance, offset: offset, completion: completion)
-    }
+
 }

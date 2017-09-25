@@ -184,10 +184,20 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
      }
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let navigationController = segue.destination as! UINavigationController
-        let filtersViewController = navigationController.topViewController as! FiltersViewController
-        
-        filtersViewController.delegate = self
+        if segue.identifier == "filters" {
+            let navigationController = segue.destination as! UINavigationController
+            let filtersViewController = navigationController.topViewController as! FiltersViewController
+            
+            filtersViewController.delegate = self
+        } else if segue.identifier == "detail" {
+            let cell = sender as! BusinessCell
+            let indexPath = resultsTableView.indexPath(for: cell)
+            let business = filteredBusinesses[indexPath!.row]
+            
+            let id = business.id
+            let destinationVC = segue.destination as! DetailViewController
+            destinationVC.businessID = id
+        }
     }
     
     internal func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: Filters) {
