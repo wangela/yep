@@ -35,12 +35,12 @@ class Business: NSObject {
                 address = addressArray![0] as! String
             }
             
-            let neighborhoods = location!["neighborhoods"] as? NSArray
-            if neighborhoods != nil && neighborhoods!.count > 0 {
+            let city = location!["city"] as? String
+            if city != nil {
                 if !address.isEmpty {
                     address += ", "
                 }
-                address += neighborhoods![0] as! String
+                address += city!
             }
         }
         self.address = address

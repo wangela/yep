@@ -2,7 +2,7 @@
 
 Yep is an iOS app for searching nearby restaurants based on the Yelp API.
 
-Time spent: 25 hours spent in total
+Time spent: 27 hours spent in total
 
 ## User Stories
 
@@ -42,6 +42,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 The collapsible filter took the longest to implement; I wish I had knocked out more of the other optionals before tackling this one.
 
 Using a struct for the data structure helped greatly in keeping things straight. Choosing a good data structure was key for the filters implementation.
+
+I tried to get the v3 API working with my own API keys but it would be more efficient to do this after next week's lesson on OAuth. I also found that the new API doesn't supply rating_image_url so it'd be a little bit of a pain to have to convert the rating decimal to its corresponding image url and it would break down if they move the images (image locations aren't documented in the new API).  I tried two ways, one using the YelpAPI cocoapod (recommended by Yelp) and one using the BDBOAuth1Manager pod. You can see the progress in my "APIv3" branch.
 
 ## License
 
