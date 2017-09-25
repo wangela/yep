@@ -12,15 +12,19 @@ class BusinessDetail: NSObject {
     let id: String?
     let name: String?
     let address: String?
+    let phone: String?
     let imageURL: URL?
     let categories: String?
     let distance: String?
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
-    
+    let reviewExcerpt: String?
+    var reviewerImageURL: URL?
+    var reviewer: String?
+    var reviewRatingImageURL: URL?
+
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
-        print("\(name)")
         
         id = dictionary["id"] as? String
         
@@ -34,20 +38,20 @@ class BusinessDetail: NSObject {
         let location = dictionary["location"] as? NSDictionary
         var address = ""
         if location != nil {
-            let addressArray = location!["address"] as? NSArray
+            let addressArray = location!["display_address"] as? [String]
             if addressArray != nil && addressArray!.count > 0 {
-                address = addressArray![0] as! String
-            }
-            
-            let city = location!["city"] as? String
-            if city != nil {
-                if !address.isEmpty {
-                    address += ", "
+                for field in addressArray! {
+                    address += field
+                    address += "\n"
                 }
-                address += city!
+            let addressLen = address.index(address.endIndex, offsetBy: -1)
+            let addressRange = address.startIndex ..< addressLen
+            address = address[addressRange]
             }
         }
         self.address = address
+        
+        phone = dictionary["display_phone"] as? String
         
         let categoriesArray = dictionary["categories"] as? [[String]]
         if categoriesArray != nil {
@@ -77,6 +81,39 @@ class BusinessDetail: NSObject {
         }
         
         reviewCount = dictionary["review_count"] as? NSNumber
+        
+        let reviewArray = dictionary["reviews"] as? NSArray
+        if reviewArray != nil {
+            let reviewDict = reviewArray![0] as? NSDictionary
+            if reviewDict != nil {
+                reviewExcerpt = reviewDict!["excerpt"] as? String
+                let reviewRatingURLString = reviewDict!["rating_image_url"] as? String
+                if reviewRatingURLString != nil {
+                    reviewRatingImageURL = URL(string: reviewRatingURLString!)!
+                } else {
+                    reviewRatingImageURL = nil
+                }
+                let userDict = reviewDict!["user"] as? NSDictionary
+                if userDict != nil {
+                    reviewer = userDict!["name"] as? String
+                    let userURLString = userDict!["image_url"] as? String
+                    if userURLString != nil {
+                        reviewerImageURL = URL(string: userURLString!)!
+                    } else {
+                        reviewerImageURL = nil
+                    }
+                } else {
+                    reviewer = nil
+                }
+            } else {
+                reviewExcerpt = nil
+            }
+        } else {
+            reviewExcerpt = nil
+            reviewRatingImageURL = nil
+            reviewer = nil
+            reviewerImageURL = nil
+        }
     }
     
     class func getBusiness(id: String, completion: @escaping (BusinessDetail?, Error?) -> Void) {

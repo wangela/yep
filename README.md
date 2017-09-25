@@ -2,7 +2,7 @@
 
 Yep is an iOS app for searching nearby restaurants based on the Yelp API.
 
-Time spent: 28 hours spent in total
+Time spent: 31 hours spent in total
 
 ## User Stories
 
@@ -21,7 +21,7 @@ The following **optional** features are implemented:
 - [ ] Implement map view of restaurant results
 - [x] Distance filter should expand as in the real Yelp app.
 - [ ] Categories should show a subset of the full list with a "See All" row to expand.
-- [ ] Implement the restaurant detail page.
+- [x] Implement the restaurant detail page.
 - [x] Implement a custom switch
 
 The following **additional** features are implemented:

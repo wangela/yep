@@ -129,6 +129,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.filteredBusinesses = resultBusinesses
                 self.resultsCounter = self.filteredBusinesses.count
                 self.resultsTableView.reloadData()
+                self.resultsTableView.setContentOffset(CGPoint.zero, animated: true)
             }
             )
         } else if let searchText = searchController.searchBar.text, searchText.isEmpty {
@@ -137,6 +138,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.filteredBusinesses = resultBusinesses
                 self.resultsCounter = self.filteredBusinesses.count
                 self.resultsTableView.reloadData()
+                self.resultsTableView.setContentOffset(CGPoint.zero, animated: true)
             }
             )
         }
