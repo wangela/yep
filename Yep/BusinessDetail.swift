@@ -20,6 +20,7 @@ class BusinessDetail: NSObject {
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
+        print("\(name)")
         
         id = dictionary["id"] as? String
         

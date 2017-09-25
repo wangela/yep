@@ -11,7 +11,11 @@ import UIKit
 class DetailViewController: UIViewController {
     
     var businessID: String!
-    var business: BusinessDetail!
+    var business: BusinessDetail! {
+        didSet {
+            
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +26,7 @@ class DetailViewController: UIViewController {
             self.business = resultBusiness
         })
         print (business)
+        
     }
 
     override func didReceiveMemoryWarning() {
