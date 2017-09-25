@@ -12,6 +12,10 @@ import AFNetworking
 import BDBOAuth1Manager
 
 // You can register for Yelp API keys here: http://www.yelp.com/developers/manage_api_keys
+//let yelpConsumerKey = "_v7OGQx7u2n4dlE4RMr6ZA"
+//let yelpConsumerSecret = "Fkil69LWAEJWefqNhcvFu3CKXDJQb6Wfrp8nEtya8qjalKG7aE39fPO36PzhFRft"
+
+// CodePath API keys
 let yelpConsumerKey = "vxKwwcR_NMQ7WaEiQBK_CA"
 let yelpConsumerSecret = "33QCvh5bIF5jIHR5klQr7RtBDhQ"
 let yelpToken = "uRcRswHFYa1VkDrGV6LAW2F8clGh5JHV"
@@ -33,6 +37,7 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         super.init(coder: aDecoder)
     }
     
+     // API v2
     init(consumerKey key: String!, consumerSecret secret: String!, accessToken: String!, accessSecret: String!) {
         self.accessToken = accessToken
         self.accessSecret = accessSecret
@@ -70,7 +75,7 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         }
         
         if distance != nil {
-            parameters["distance"] = distance! as AnyObject?
+            parameters["radius_filter"] = distance! as AnyObject?
         }
         
         if offset != nil {

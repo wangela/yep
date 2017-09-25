@@ -39,7 +39,7 @@ Here's a walkthrough of implemented user stories:
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
-The collapsible filter took the longest to implement; I wish I had knocked out more of the other optionals before tackling this one.
+The collapsible filter took the longest to implement; seems like a ripe CocoaPod opportunity. I wish I had knocked out more of the other optionals before tackling this one.
 
 Using a struct for the data structure helped greatly in keeping things straight. Choosing a good data structure was key for the filters implementation.
 
